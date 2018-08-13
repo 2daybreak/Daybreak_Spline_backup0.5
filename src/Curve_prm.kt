@@ -1,8 +1,8 @@
 open class Curve_prm: ICurve {
 
-    protected val prm = mutableListOf<Double>()
+    val prm = mutableListOf<Double>()
 
-    protected val pts = mutableListOf<Vector3>()
+    val pts = mutableListOf<Vector3>()
 
     override fun addPts(v: Vector3) {
         pts.add(v)

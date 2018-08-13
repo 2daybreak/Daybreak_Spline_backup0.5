@@ -1,16 +1,15 @@
 import MatrixSolvLU.*
-import kotlin.math.min
 
 open class Bspline(private val maxDeg: Int): Curve_prm() {
     /*
     A Nurbs curve is defined by
     C(u) = Sigma Ni(u) * wi * Pi / Sigma Ni(u) * wi
     */
-    private var degree: Int = 0
-    private var order : Int = 1
+    var degree: Int = 0
+    var order : Int = 1
 
-    protected val knots   = mutableListOf<Double>()
-    protected val ctrlPts = mutableListOf<Vector3>()
+    val knots   = mutableListOf<Double>()
+    val ctrlPts = mutableListOf<Vector3>()
 
     override fun addPts(v: Vector3) {
         super.addPts(v)
@@ -46,9 +45,9 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         for(i in 1..pts.size - order) {
             var interval = 0.0
             //averaging spacing(reflecting the distribution of prm)
-            for(j in i until i + degree) interval += prm[j - 1]
+            for(j in i until i + degree) interval += prm[j]
             interval /= degree
-            knots.add(order + i, interval)
+            knots.add(degree + i, interval)
         }
     }
     private fun findIndexSpan(t: Double): Int {
@@ -71,7 +70,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
             else
                 low = mid
             mid = (high + low) / 2
-            println("stuck in while loop: t = $t, mid=${knots[mid]}, mid+1=${knots[mid+1]}")
+            //println("stuck in while loop: t = $t, mid=${knots[mid]}, mid+1=${knots[mid+1]}")
         }
         return mid
     }
@@ -202,7 +201,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         var v = Array(kmax + 1,{Vector3()})
         /* Allow kmax > degree, although the ders. are 0 in this case for nonrational curves,
             but these ders. are needed for rational curves */
-        val du = min(kmax, degree)
+        val du = minOf(kmax, degree)
         for(k in order..kmax) v[k] = Vector3().zero
         val span = findIndexSpan(t)
         val nders = dersBasisFunc(span, t, du)

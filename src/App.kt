@@ -19,4 +19,6 @@ fun main(args: Array<String>) {
     val ll = Matrix(mm.m)
     println("det=${ll.determinant}")
 
+    val mf = MainFrame()
+
 }
