@@ -29,6 +29,8 @@ class MainPanel : JPanel() {
 
     //var viewport = Viewport()
 
+    val s: Shape = Ellipse2D.Double(100.0,100.0,10.0,10.0) 
+    
     init {
         addMouseListener(
                 object : MouseListener {
@@ -60,7 +62,7 @@ class MainPanel : JPanel() {
                             println("RightButton")
                             bspline.add(Bspline(3))
                         }
-                        if(s.contains(e.point)) print("Pressed a ${s.JavaClass.name})
+                        if(s.contains(e.point)) print("Pressed a ${s.JavaClass.name}")
                     }
 
                     override fun mouseReleased(e: MouseEvent) {
@@ -119,6 +121,8 @@ class MainPanel : JPanel() {
             }
 
         }
+        val g2d: Graphics2D = g as Graphics2D
+        g2d.draw(s)
     }
 }
 
