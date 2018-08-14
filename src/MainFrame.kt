@@ -60,6 +60,7 @@ class MainPanel : JPanel() {
                             println("RightButton")
                             bspline.add(Bspline(3))
                         }
+                        if(s.contains(e.point)) print("Pressed a ${s.JavaClass.name})
                     }
 
                     override fun mouseReleased(e: MouseEvent) {
