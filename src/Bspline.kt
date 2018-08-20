@@ -20,6 +20,11 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         degree(); order()
         if(!pts.isEmpty()) { evalKnots(); evalCtrlPoints() }
     }
+    override fun removePts(i: Int) {
+        super.removePts(i)
+        degree(); order()
+        if(!pts.isEmpty()) { evalKnots(); evalCtrlPoints() }
+    }
     private fun degree() {
         val nm1 = pts.size - 1
         degree = when(nm1 > maxDeg) {
@@ -53,8 +58,8 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
     private fun findIndexSpan(t: Double): Int {
         var t = t
         //Make sure the parameter t is within the knots range
-        val max: Double = knots.max()!!
-        val min: Double = knots.min()!!
+        val max: Double = knots.max()?: 0.0
+        val min: Double = knots.min()?: 0.0
         if(t > max) t = 1.0
         if(t < min) t = 0.0
         //Find index of ith knot span(half-open interval)
@@ -276,22 +281,15 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
             val nn = basisFuncs(span, prm[i])
             for (j in 0..degree) aa[i][span - degree + j] = nn[j]
         }
-        val bx = DoubleArray(n)
-        val by = DoubleArray(n)
-        val bz = DoubleArray(n)
-        for (i in pts.indices) {
-            bx[i] = pts[i].x
-            by[i] = pts[i].y
-            bz[i] = pts[i].z
-        }
+        val bb = Array(3) {DoubleArray(n)}
+        for (i in pts.indices)
+            for (j in 0..2) bb[j][i] = pts[i][j]
         if (n >= 3) {
             val indx = IntArray(n)
             ludcmp(n, aa, indx)
-            lubksb(n, aa, indx, bx)
-            lubksb(n, aa, indx, by)
-            lubksb(n, aa, indx, bz)
+            for (j in 0..2) lubksb(n, aa, indx, bb[j])
         }
         ctrlPts.clear()
-        for (i in pts.indices) ctrlPts.add(Vector3(bx[i],by[i],bz[i]))
+        for (i in pts.indices) ctrlPts.add(Vector3(bb[0][i],bb[1][i],bb[2][i]))
     }
 }

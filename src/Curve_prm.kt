@@ -11,7 +11,12 @@ open class Curve_prm: ICurve {
 
     override fun removePts(v: Vector3) {
         pts.remove(v)
-        if(pts.isEmpty()==false) evalPrm()
+        if(!pts.isEmpty()) evalPrm()
+    }
+
+    override fun removePts(i: Int) {
+        pts.removeAt(i)
+        if(!pts.isEmpty()) evalPrm()
     }
 
     private fun evalPrm() {
