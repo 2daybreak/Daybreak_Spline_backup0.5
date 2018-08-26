@@ -8,17 +8,18 @@ open class Curve_prm: ICurve {
         pts.add(v)
         evalPrm()
     }
-
+    override fun addPts(i: Int, v: Vector3) {
+        pts.add(i, v)
+        evalPrm()
+    }
     override fun removePts(v: Vector3) {
         pts.remove(v)
         if(!pts.isEmpty()) evalPrm()
     }
-
     override fun removePts(i: Int) {
         pts.removeAt(i)
         if(!pts.isEmpty()) evalPrm()
     }
-
     private fun evalPrm() {
         prm.clear()
         var sum = 0.toDouble()

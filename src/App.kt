@@ -1,6 +1,6 @@
 fun main(args: Array<String>) {
-    println("Hello World")
 
+/*
     val curve = mutableListOf<Bspline>()
     curve.add(Bspline(3))
     curve[0].addPts(Vector3(3.0, 3.0, 0.0))
@@ -17,8 +17,8 @@ fun main(args: Array<String>) {
     val nn = Matrix(3).identity
     println("det=${nn.determinant}")
     val ll = Matrix(mm.m)
-    println("det=${ll.determinant}")
+    println("det=${ll.determinant}")*/
 
-    val mf = MainFrame()
+    val mainFrame = MainFrame()
 
 }

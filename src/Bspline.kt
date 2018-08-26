@@ -15,16 +15,24 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         super.addPts(v)
         degree(); order(); evalKnots(); evalCtrlPoints()
     }
+
+    override fun addPts(i: Int, v: Vector3) {
+        super.addPts(i, v)
+        degree(); order(); evalKnots(); evalCtrlPoints()
+    }
+
     override fun removePts(v: Vector3) {
         super.removePts(v)
         degree(); order()
         if(!pts.isEmpty()) { evalKnots(); evalCtrlPoints() }
     }
+
     override fun removePts(i: Int) {
         super.removePts(i)
         degree(); order()
         if(!pts.isEmpty()) { evalKnots(); evalCtrlPoints() }
     }
+
     private fun degree() {
         val nm1 = pts.size - 1
         degree = when(nm1 > maxDeg) {
@@ -32,7 +40,9 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
             false -> nm1
         }
     }
+
     private fun order() { order = degree + 1}
+
     private fun evalKnots() {
         /*  Evaluate knot vector. For the uniform spacing, e.g.
         ctrlPts 1 (point)    : n=1,deg=0,order=1,knots={0,1}
@@ -55,6 +65,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
             knots.add(degree + i, interval)
         }
     }
+
     private fun findIndexSpan(t: Double): Int {
         var t = t
         //Make sure the parameter t is within the knots range
@@ -79,6 +90,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         }
         return mid
     }
+
     //Algorithm 2.2
     private fun basisFuncs(span: Int, t: Double) : DoubleArray {
     /*  Compute nonvanishing basis functions
@@ -105,6 +117,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         }
         return nn
     }
+
     //Algorithm 2.3
     protected fun dersBasisFunc(span: Int, t: Double, kmax: Int): Array<DoubleArray> {
         /* Compute nonzero basis functions and their derivatives
@@ -189,6 +202,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         }
         return ders
     }
+
     //Algorithm 3.1
     fun curvePoint(t: Double): Vector3 {
         val span = findIndexSpan(t)
@@ -200,6 +214,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         }
         return v
     }
+
     //Algorithm 3.2
     fun curveDers(t: Double, kmax: Int): Array<Vector3> {
         // Compute kth derivatives
@@ -220,6 +235,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
         }
         return v
     }
+
     //Algorithm 5.1
     private fun curveKnotInsert(t: Double)
     {
@@ -256,6 +272,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
             pts[i] = curvePoint(prm[i])
         }
     }
+
     private fun evalPrmKnotAverages()
     {
         for (i in pts.indices)
@@ -269,6 +286,7 @@ open class Bspline(private val maxDeg: Int): Curve_prm() {
             prm[i] = average
         }
     }
+
     //Algorithm 9.1
     //inefficient Algorithm due to the whole ctrlPts to be evaluated
     private fun evalCtrlPoints()

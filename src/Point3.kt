@@ -1,8 +1,8 @@
-class Point3(val width : Int, val height: Int, val v: Vector3) {
+class Point3(val width : Double, val height: Double, val v: Vector3) {
 
-    constructor(d: Int, u: Vector3): this(d, d, u)
-    constructor(u: Vector3): this(10, 10, u)
-    constructor(): this(10,10,Vector3())
+    constructor(w: Int, h: Int, v: Vector3): this(w.toDouble(), h.toDouble(), v)
+    constructor(size: Double, u: Vector3): this(size, size, u)
+    constructor(size: Int, u: Vector3): this(size, size, u)
 
     operator fun get(index: Int): Double {
         return when (index) {
