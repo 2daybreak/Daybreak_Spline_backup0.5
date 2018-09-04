@@ -1,7 +1,8 @@
+import linearAlgebra.Vector3
+
 class Point3(val width : Double, val height: Double, val v: Vector3) {
 
     constructor(w: Int, h: Int, v: Vector3): this(w.toDouble(), h.toDouble(), v)
-    constructor(size: Double, u: Vector3): this(size, size, u)
     constructor(size: Int, u: Vector3): this(size, size, u)
 
     operator fun get(index: Int): Double {

@@ -1,25 +1,37 @@
 import java.awt.Color
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
+import javax.swing.JLabel
 import javax.swing.JTree
 import javax.swing.JScrollPane
-import javax.swing.event.TreeSelectionEvent
+import javax.swing.JTabbedPane
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.DefaultTreeModel
 
-class ModelTree: JScrollPane() {
+class ModelTree {
 
+    //Left
     val geometry = DefaultMutableTreeNode("Geometry")
     val grid = DefaultMutableTreeNode("Grid")
     val root = DefaultMutableTreeNode("Root")
     val model = DefaultTreeModel(root)
     val tree = JTree(model)
+    val beginCurve = 1 // tunning
 
+    //Right
     val mainPanel = MainJPanel()
+    val tabs = JTabbedPane()
 
     init {
 
-        getViewport().add(tree)
+        tabs.addTab("geometry",mainPanel)
+        tabs.addTab("pitch", JLabel())
+        tabs.addTab("chord",JLabel())
+        tabs.addTab("skew",JLabel())
+        tabs.addTab("rake",JLabel())
+        tabs.addTab("camber",JLabel())
+        tabs.addTab("thickness",JLabel())
+
         root.add(geometry)
         root.add(grid)
         tree.expandRow(0)
@@ -32,17 +44,11 @@ class ModelTree: JScrollPane() {
             override fun mousePressed(e: MouseEvent?) {}
             override fun mouseReleased(e: MouseEvent?) {}
             override fun mouseClicked(e: MouseEvent) {
-                println("row = ${tree.getRowForLocation(e.x, e.y)}")
-                mainPanel.ing = tree.getRowForLocation(e.x, e.y) - 1
+                val row = tree.getRowForLocation(e.x, e.y)
+                val name = tree.getPathForRow(row).toString()
+                if(row != -1) mainPanel.ing = row - beginCurve
             }
         })
-        /*
-        tree.addTreeSelectionListener{e: TreeSelectionEvent ->
-            val node = tree.lastSelectedPathComponent
-                    as? DefaultMutableTreeNode?: DefaultMutableTreeNode()
-            println("TreeSelectionListener is activating")
-            mainPanel.ing = geometry.getIndex(node)
-        }
-        */
+
     }
 }
