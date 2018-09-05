@@ -6,8 +6,6 @@ import javax.swing.filechooser.FileNameExtensionFilter
 class MainFrame : JFrame() {
 
     private val modelTree = ModelTree()
-    private val splitPane = JSplitPane(1, modelTree.tree, modelTree.tabs)
-
     private val circle = Menu("Circle", modelTree, 0)
     private val controlPointBspline = Menu("Control Points", modelTree, 1)
     private val interpolatedBspline = Menu("Passing Points", modelTree, 2)
@@ -19,9 +17,7 @@ class MainFrame : JFrame() {
         title = "MainFrame"
         defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         isVisible = true
-        contentPane.add(splitPane)
-        splitPane.dividerSize = 3
-        splitPane.dividerLocation = 150
+        contentPane.add(modelTree.splitPane)
         contentPane.addKeyListener(KeyHandler())
         contentPane.requestFocus()
 
