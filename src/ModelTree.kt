@@ -27,6 +27,9 @@ class ModelTree {
     
     init {
 
+        splitPane.dividerSize = 3
+        splitPane.dividerLocation = 150
+        
         tabs.addTab("geometry",mainPanel)
         tabs.addTab("pitch", JLabel())
         tabs.addTab("chord",JLabel())
