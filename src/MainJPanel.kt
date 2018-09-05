@@ -32,7 +32,8 @@ class MainJPanel: JPanel() {
     private val tableModel = DefaultTableModel()
     private val table = JTable(tableModel)
     val subFrame = SubFrame(JScrollPane(table))
-
+    val pop = PopupMenu()
+    
     // Viewport
     //var viewport = Viewport()
     val size = 20
@@ -45,6 +46,11 @@ class MainJPanel: JPanel() {
                     2 -> println("DoubleClicked")
                     3 -> println("TripleClicked")
                     4 -> println("QuadrupleClicked")
+                }
+                when(e.button) {
+                    MouseEvent.BUTTON3 -> {
+                        pop.show(e.component, e.x, e.y)
+                    }
                 }
             }
             override fun mouseExited (e: MouseEvent) { }
