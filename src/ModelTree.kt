@@ -22,6 +22,9 @@ class ModelTree {
     val mainPanel = MainJPanel()
     val tabs = JTabbedPane()
 
+    //Left & Right
+    val splitPane = JSplitPane(1, tree, tabs)
+    
     init {
 
         tabs.addTab("geometry",mainPanel)
